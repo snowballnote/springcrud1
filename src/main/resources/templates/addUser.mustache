@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>addUser</h1>
+	<form method="post" action="{{springMacroRequestContext.request.contextPath}}/addUser">
+		<table border="1">
+			<tr>
+				<td>userId</td>
+				<td><input type="text" name="userId"></td>
+			</tr>
+			<tr>
+				<td>userPw</td>
+				<td><input type="password" name="userPw"></td>
+			</tr>
+			<tr>
+				<td>userCity</td>
+				<td><input type="text" name="userCity"></td>
+			</tr>
+		</table>
+		<button type="submit">회원가입</button>
+	</form>
+</body>
+</html>

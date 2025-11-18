@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>로그인</h1>
+	<form method="post" action="{{springMacroRequestContext.request.contextPath}}/login"> <!-- request.getContextPath() -->
+		<table border="1">
+			<tr>
+				<td>userId</td>
+				<td><input type="text" name="userId"></td>
+			</tr>
+			<tr>
+				<td>userPw</td>
+				<td><input type="password" name="userPw"></td>
+			</tr>
+		</table>
+		<button type="submit">로그인</button>
+	</form>
+</body>
+</html>

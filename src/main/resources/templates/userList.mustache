@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>userList</h1>
+	<table border="1">
+		<tr>
+			<th>userNo</th>
+			<th>userId</th>
+			<th>탈퇴하기</th>
+		</tr>
+		
+		{{#list}}
+			<tr>
+				<td>{{userNo}}</td>
+				<td>{{userId}}</td>
+				<td>
+					<form action="/removeUser" method="post">
+						<input type="hidden" name="userNo" value="{{userNo}}">
+						
+						<button type="submit">탈퇴하기</button>
+					</form>
+				</td>
+			</tr>
+		{{/list}}
+	</table>
+	<div>
+		<a href="{{springMacroRequestContext.request.contextPath}}/userList?currentPage={{prePage}}&searchWord={{searchWord}}">[이전]</a>
+		<a href="{{springMacroRequestContext.request.contextPath}}/userList?currentPage={{nextPage}}&searchWord={{searchWord}}">[다음]</a>
+	</div>
+	<div>
+		<form method="get" action="{{springMacroRequestContext.request.contextPath}}/userList">
+			<input type="text" name="searchWord">
+			<button>ID검색</button>
+		</form>
+	</div>
+</body>
+</html>

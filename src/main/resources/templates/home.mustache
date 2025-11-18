@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<!-- include -->
+	{{>layouts/header}}
+	
+	<h1>home</h1>
+	<div>
+		{{#loginUser}} <!-- loginUser true/공백이아닌문자열/객체 이면 -->
+			<div>{{userId}}님 안녕하세요 반갑습니다.</div>
+		{{/loginUser}}
+		
+		{{^loginUser}}<!-- loginUser가 false/공백문자열/null 이면-->
+		회원가입 부탁드립니다.
+		{{/loginUser}}
+	</div>
+	
+	<!-- include -->
+	{{>layouts/footer}}
+</body>
+</html>
