@@ -17,9 +17,6 @@ public interface UserMapper { // User Table + UserInfo Table
 	
 	int insertUser(User u);
 	int insertUserInfo(UserInfo ui);
-	
-	// 탈퇴를 위한 비밀번호 검증 (UserNo와 UserPw를 인자로 받음)
-	User selectUserByUserNoAndPw(User user); 
 
 	// UserInfo 테이블 데이터 삭제
 	int deleteUserInfoByUserNo(int userNo);
