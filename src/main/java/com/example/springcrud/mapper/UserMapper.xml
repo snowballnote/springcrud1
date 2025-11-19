@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.springcrud.mapper.UserMapper"><!-- 연결할 인터페이스 풀네임 -->
-
+	
+	<!-- removeUser -->
+	<!-- 먼저 외래키 삭제 -->
+	<delete id="deleteUserInfoByUserNo" parameterType="int">
+		DELETE FROM user_info
+		WHERE user_no = #{userNo}
+	</delete>
+	<!-- 실제 회원 정보 삭제 -->
+	<delete id="deleteUserByUserNo" parameterType="int">
+		DELETE FROM user
+		WHERE user_no = #{userNo}
+	</delete>
+	
+	<!-- userList -->
 	<!-- map.beginRow rowPerPage searchWord -->
 	<select id="selectUserListByPage" parameterType="Map" resultType="com.example.springcrud.dto.User">
 		select user_no userNo, user_id userId
@@ -14,6 +27,7 @@
 		limit #{beginRow}, #{rowPerPage}
 	</select>
 	
+	<!-- Login -->
 	<select id="selectUserByLogin" parameterType="com.example.springcrud.dto.User" resultType="Map">
 		select u.user_id userId, ui.user_city userCity
 		from user u inner join user_info ui
@@ -21,11 +35,11 @@
 		where u.user_id = #{userId} and u.user_pw = #{userPw}
 	</select>
 	
+	<!-- insertUser -->
 	<insert id="insertUser" parameterType="com.example.springcrud.dto.User" useGeneratedKeys="true" keyColumn="user_no" keyProperty="userNo">
 		insert into user(user_id, user_pw)
 		values(#{userId}, #{userPw})
 	</insert>
-	
 	<insert id="insertUserInfo" parameterType="com.example.springcrud.dto.UserInfo">
 		insert into user_info(user_no, user_city)
 		values(#{userNo}, #{userCity})

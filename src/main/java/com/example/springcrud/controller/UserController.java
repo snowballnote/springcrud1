@@ -21,31 +21,35 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	// 회원 탈퇴 폼
+	// 회원 탈퇴 폼으로 이동 (GET 요청)
 	@GetMapping("/removeUser")
 	public String removeUser() {
 		return "removeUser";
 	}
 	
-	// 회원 탈퇴 액션
+	// 회원 탈퇴 요청 처리 (POST 요청)
 	@PostMapping("/removeUser")
 	public String removeUser(HttpSession session, User u) {
-		// 1. 세션에서 로그인된 유저 정보를 가져옴 (UserNo를 얻기 위함)
+		// 세션에서 로그인된 유저 정보를 가져옴 (UserNo를 얻기 위함)
 	    Map<String, Object> loginUser = (Map<String, Object>) session.getAttribute("loginUser");
-	    int userNo = (Integer) loginUser.get("userNo");
-	    u.setUserNo(userNo);
+	   
+	    if (loginUser == null) {
+            System.out.println("로그인 세션 없음.");
+            return "redirect:/";
+        }
 	    
-	    // 2. 서비스 호출 (비밀번호 검증 및 탈퇴 처리)
+//	    int userNo = (Integer) loginUser.get("userNo");
+//	    u.setUserNo(userNo);
+	    
+	    // 서비스 호출 (비밀번호 검증 및 탈퇴 처리)
 	    int row = userService.removeUser(u);
 	    
 	    if (row == 0) {
 	        System.out.println("탈퇴 실패: 비밀번호 불일치 또는 DB 오류");
-	        return "redirect:/removeUser";
+	        return "redirect:/userList";
 	    }
 		
-	    // 3. 탈퇴 성공 시 세션 무효화
-	    session.invalidate();
-		System.out.println(userNo + "번 회원 탈퇴 성공");
+		System.out.println(u.getUserNo() + "번 회원 탈퇴 성공");
 		return "redirect:/userList";
 	}
 	
@@ -68,7 +72,13 @@ public class UserController {
 		return "successLogin";
 	}
 	
-	// 회원가입 액션
+	// 회원가입 폼으로 이동 (GET 요청)
+	@GetMapping("/addUser")
+	public String addUser() {
+		return "addUser";
+	}
+		
+	// 회원가입 요청 처리 (POST 요청)
 	@PostMapping("/addUser")
 	public String addUser(AddUserForm addUserForm) {
 		System.out.println(addUserForm.getUserId());
@@ -80,20 +90,20 @@ public class UserController {
 		return "redirect:/login"; // @Controller 메서드 반환값 redirecct: 접두사 뒤에는 contextPath 생략!
 	}
 	
-	// 회원가입 폼
-	@GetMapping("/addUser")
-	public String addUser() {
-		return "addUser";
-	}
-	
-	// 로그아웃
+	// 로그아웃 폼으로 이동 (GET 요청)
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/home"; // 리다이렉트
 	}
 	
-	// 로그인 액션
+	// 로그인 폼
+	@GetMapping("/login")
+	public String login() {
+		return "login";
+	}
+	
+	// 로그인 요청 처리 (POST 요청)
 	@PostMapping("/login")
 	public String login(HttpSession session, User u) {
 		System.out.println(u.getUserId());
@@ -108,11 +118,5 @@ public class UserController {
 		session.setAttribute("loginUser", loginUser);
 		System.out.println("로그인성공");
 		return "redirect:/successLogin"; // 리다이렉트
-	}
-	
-	// 로그인 폼
-	@GetMapping("/login")
-	public String login() {
-		return "login";
 	}
 }

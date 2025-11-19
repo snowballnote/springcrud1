@@ -21,17 +21,10 @@ public class UserService {
 	
 	@Transactional // 트랜젝션은 유지
 	public int removeUser(User u) {
-		// 1. 비밀번호 검증 쿼리 호출 (userNo와 userPw로 일치하는지 확인)
-	    User checkedUser = userMapper.selectUserByUserNoAndPw(u);
-
-	    if (checkedUser == null) {
-	        return 0; // 비밀번호 불일치
-	    }
-	    
-	    // 2. UserInfo 삭제 (외래 키 제약 조건 때문에 User 테이블보다 먼저 삭제)
+	    // UserInfo 삭제 (외래 키 제약 조건 때문에 User 테이블보다 먼저 삭제)
 	    userMapper.deleteUserInfoByUserNo(u.getUserNo());
 	    
-	    // 3. User 삭제
+	    // User 삭제
 	    int row = userMapper.deleteUserByUserNo(u.getUserNo());
 	    
 	    return row;
